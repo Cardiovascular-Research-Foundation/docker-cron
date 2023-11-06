@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM php:8.2-fpm
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install -y cron curl unzip libpq-dev \
@@ -6,9 +6,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-install pdo pdo_mysql \
 	    # Install Composer
-	    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer		
-    && which cron \
-    && rm -rf /etc/cron.*/*
+	    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer	
+		
 	
 # Set the working directory for the Laravel app
 WORKDIR /var/www
