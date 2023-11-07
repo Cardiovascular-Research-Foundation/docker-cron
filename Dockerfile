@@ -1,27 +1,12 @@
-FROM php:8.2-fpm
+FROM ubuntu:22.04
 
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install -y cron curl unzip libpq-dev \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install -y cron curl \
     # Remove package lists for smaller image sizes
     && rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-install pdo pdo_mysql \
-	    # Install Composer
-	    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer	
+	&& which cron \
+    && rm -rf /etc/cron.*/*
 		
-	
-# Set the working directory for the Laravel app
-WORKDIR /var/www
-
-# Copy the Laravel app into the container
-COPY . /var/www
-
-# Install the Laravel app dependencies
-RUN composer install
-
-# Set proper permissions for the storage and bootstrap/cache directories
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
-    && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
-
 # Copy the crontab file and entrypoint script into the container
 COPY crontab /hello-cron
 COPY entrypoint.sh /entrypoint.sh
