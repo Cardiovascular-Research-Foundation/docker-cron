@@ -1,4 +1,4 @@
 * * * * * curl https://api.crf.org/schedule/run >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * curl --silent --compressed https://meetings-admin.crfconnect.com/actions/publisher/api/publish
+* * * * * curl --silent --compressed https://meetings-admin.crfconnect.com/actions/publisher-x/api/publish
 
 # An empty line is required at the end of this file for a valid cron file.
